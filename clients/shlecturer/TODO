@@ -1,0 +1,7 @@
+- board should be sized 10x10
+- board should contain rows 1..10 and columns A..J
+- squares on board should be accessible as "A9" or something similar
+- board should be able to contain zero or more ships
+- ships may not overlap (but may be adjacent)
+- board should indicate whether or not a ship is at a certain square (hit/miss)
+- board should allow squares to be updated (hit/miss)
