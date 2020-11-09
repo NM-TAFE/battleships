@@ -1,7 +1,7 @@
 import os
 import threading
 import time
-from client import Battleship
+from clients import Battleship
 
 grpc_host = os.getenv('GRPC_HOST', 'localhost')
 grpc_port = os.getenv('GRPC_PORT', '50051')
@@ -14,6 +14,10 @@ battleship = Battleship(grpc_host=grpc_host, grpc_port=grpc_port)
 
 @battleship.on()
 def begin():
+    """This callback is called when the game server indicates that a game
+    starts. This happens when two players are available to play. If you are
+    the first to register, you may have to wait for someone else to connect.
+    """
     print('Game started!')
 
 
@@ -35,18 +39,29 @@ def miss():
 
 @battleship.on()
 def win():
+    """This callback indicates the other player was defeated.
+    """
     print('Yay! You won!')
     playing.clear()
 
 
 @battleship.on()
 def lose():
+    """Callback indicates you are defeated. This callback is called when you
+    call :meth: 'defeat' method on the Battleship client, so this will never
+    come as a surprise.
+    """
     print('Aww... You lost...')
     playing.clear()
 
 
 @battleship.on()
 def attack(vector):
+    """Callback indicates an attack by another player. It takes a single
+    argument which is the square that is attacked. Please note game server
+    does not validate the vector, so it is up to the clients to decide on a
+    certain format.
+    """
     vector = vector[0]
     print(f'Shot received at {vector}')
     while True:
@@ -69,4 +84,5 @@ def attack(vector):
 print('Waiting for the game to start...')
 battleship.join()
 while playing.is_set():
+    # giving processor a break
     time.sleep(1.0)
