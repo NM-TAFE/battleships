@@ -64,85 +64,442 @@ global fou_y
 global fif_x
 global fif_y
 
-print('You have 1 A)ircraft Carrier, 1 B)attleship, 3 S)ubmarines, 1 C)ruiser, 2 D)estroyers, and 2 P)atrol Boats.')
-ship = input('Choose a Ship to Place> ')
+global numA
 
-print('Where do you want to place the Aircraft Carrier?')
-A = input('Choose a Coordinate> ')
-_A = A[0].upper()
-for ACChar in _A:
-    if ACChar.isdigit():
-        first_x = int(ACChar) - 1
-    elif ACChar.isupper():
-        first_y = ord(ACChar) - 65
-    else:
-        print('Invalid Character')
+numB = 1
+numS = 3
+numC = 1
+numD = 2
+numP = 2
 
 while True:
+    print('You have 1 A)ircraft Carrier, 1 B)attleship, 3 S)ubmarines, 1 C)ruiser, 2 D)estroyers, and 2 P)atrol Boats.')
+    Ship = input('Choose a Ship to Place> ')
+    _Ship = Ship[0].upper()
+
+    print('Where do you want to place the Aircraft Carrier?')
+    A = input('Choose a Coordinate> ')
+    _A = A[0].upper()
+    for ACChar in _A:
+        if ACChar.isdigit():
+            first_x = int(ACChar) - 1
+        elif ACChar.isupper():
+            first_y = ord(ACChar) - 65
+        else:
+            print('Invalid Character')
+
     print("""U)p, D)own, L)eft, or R)ight?""")
-    D = input('Choose a Direction> ')
-    _D = D[0].upper()
-    if _D == 'U':
+    Direction = input('Choose a Direction> ')
+    _Direction = Direction[0].upper()
+    if _Direction == 'U':
         sec_y = fir_y - 1
-        thi_y = fir_y - 1
-        fou_y = thi_y - 1
-        fif_y = fou_y - 1
-        if sec_y < 0 or thi_y < 0 or fou_y < 0 or fif_y < 0:
+        thi_y = fir_y - 2
+        fou_y = fir_y - 3
+        fif_y = fir_y - 4
+
+        if _Ship == 'A' and (fir_y < 0 or sec_y < 0 or thi_y < 0 or fou_y < 0 or fif_y < 0):
             print('Ship Goes Outside the Bounds of the Board.')
             continue
-        else:
+
+        elif _Ship == 'A' and numA == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'A':
             playerGrid[fir_y][fir_x] = 'A'
             playerGrid[sec_y][sec_x] = 'A'
             playerGrid[thi_y][thi_x] = 'A'
             playerGrid[fou_y][fou_x] = 'A'
             playerGrid[fif_y][fif_x] = 'A'
+
+            numA -= 1
             break
-    elif _D == 'D':
+
+        elif _Ship == 'B' and (fir_y < 0 or sec_y < 0 or thi_y < 0 or fou_y < 0):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'B' and numB == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'B':
+            playerGrid[fir_y][fir_x] = 'B'
+            playerGrid[sec_y][sec_x] = 'B'
+            playerGrid[thi_y][thi_x] = 'B'
+            playerGrid[fou_y][fou_x] = 'B'
+
+            numB -= 1
+            break
+
+        elif _Ship == 'S' and (fir_y < 0 or sec_y < 0 or thi_y < 0):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'S' and numS == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'S':
+            playerGrid[fir_y][fir_x] = 'S'
+            playerGrid[sec_y][sec_x] = 'S'
+            playerGrid[thi_y][thi_x] = 'S'
+
+            numS -= 1
+            break
+
+        elif _Ship == 'C' and (fir_y < 0 or sec_y < 0 or thi_y < 0):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'C' and numC == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'C':
+            playerGrid[fir_y][fir_x] = 'C'
+            playerGrid[sec_y][sec_x] = 'C'
+            playerGrid[thi_y][thi_x] = 'C'
+
+            numC -= 1
+            break
+
+        elif _Ship == 'D' and (fir_y < 0 or sec_y < 0):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'D' and numD == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'D':
+            playerGrid[fir_y][fir_x] = 'D'
+            playerGrid[sec_y][sec_x] = 'D'
+
+            numD -= 1
+            break
+
+        elif _Ship == 'P' and fir_y < 0:
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'P' and numP == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'P':
+            playerGrid[fir_y][fir_x] = 'P'
+
+            numP -= 1
+            break
+
+    elif _Direction == 'D':
         sec_y = fir_y + 1
-        thi_y = sec_y + 1
-        fou_y = thi_y + 1
-        fif_y = fou_y + 1
-        if sec_y > 9 or thi_y > 9 or fou_y > 9 or fif_y > 9:
+        thi_y = fir_y + 2
+        fou_y = fir_y + 3
+        fif_y = fir_y + 4
+
+        if _Ship == 'A' and (fir_y > 9 or sec_y > 9 or thi_y > 9 or fou_y > 9 or fif_y > 9):
             print('Ship Goes Outside the Bounds of the Board.')
             continue
-        else:
+
+        elif _Ship == 'A' and numA == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'A':
             playerGrid[fir_y][fir_x] = 'A'
             playerGrid[sec_y][sec_x] = 'A'
             playerGrid[thi_y][thi_x] = 'A'
             playerGrid[fou_y][fou_x] = 'A'
             playerGrid[fif_y][fif_x] = 'A'
+
+            numA -= 1
             break
-    elif _D == 'L':
+
+        elif _Ship == 'B' and (fir_y > 9 or sec_y > 9 or thi_y > 9 or fou_y > 9):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'B' and numB == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'B':
+            playerGrid[fir_y][fir_x] = 'B'
+            playerGrid[sec_y][sec_x] = 'B'
+            playerGrid[thi_y][thi_x] = 'B'
+            playerGrid[fou_y][fou_x] = 'B'
+
+            numB -= 1
+            break
+
+        elif _Ship == 'S' and (fir_y > 9 or sec_y > 9 or thi_y > 9):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'S' and numS == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'S':
+            playerGrid[fir_y][fir_x] = 'S'
+            playerGrid[sec_y][sec_x] = 'S'
+            playerGrid[thi_y][thi_x] = 'S'
+
+            numS -= 1
+            break
+
+        elif _Ship == 'C' and (fir_y > 9 or sec_y > 9 or thi_y > 9):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'C' and numC == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'C':
+            playerGrid[fir_y][fir_x] = 'C'
+            playerGrid[sec_y][sec_x] = 'C'
+            playerGrid[thi_y][thi_x] = 'C'
+
+            numC -= 1
+            break
+
+        elif _Ship == 'D' and (fir_y > 9 or sec_y > 9):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'D' and numD == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'D':
+            playerGrid[fir_y][fir_x] = 'D'
+            playerGrid[sec_y][sec_x] = 'D'
+
+            numD -= 1
+            break
+
+        elif _Ship == 'P' and fir_y > 9:
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'P' and numP == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'P':
+            playerGrid[fir_y][fir_x] = 'P'
+
+            numP -= 1
+            break
+
+    elif _Direction == 'L':
         sec_x = fir_x - 1
-        thi_x = sec_x - 1
-        fou_x = thi_x - 1
-        fif_x = fou_x - 1
-        if sec_x < 0 or thi_x < 0 or fou_x < 0 or fif_x < 0:
+        thi_x = fir_x - 2
+        fou_x = fir_x - 3
+        fif_x = fir_x - 4
+        if _Ship == 'A' and (fir_x < 0 or sec_x < 0 or thi_x < 0 or fou_x < 0 or fif_x < 0):
             print('Ship Goes Outside the Bounds of the Board.')
             continue
-        else:
+
+        elif _Ship == 'A' and numA == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'A':
             playerGrid[fir_y][fir_x] = 'A'
             playerGrid[sec_y][sec_x] = 'A'
             playerGrid[thi_y][thi_x] = 'A'
             playerGrid[fou_y][fou_x] = 'A'
             playerGrid[fif_y][fif_x] = 'A'
+
+            numA -= 1
             break
-    elif _D == 'R':
+
+        elif _Ship == 'B' and (fir_x < 0 or sec_x < 0 or thi_x < 0 or fou_x < 0):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'B' and numB == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'B':
+            playerGrid[fir_y][fir_x] = 'B'
+            playerGrid[sec_y][sec_x] = 'B'
+            playerGrid[thi_y][thi_x] = 'B'
+            playerGrid[fou_y][fou_x] = 'B'
+
+            numB -= 1
+            break
+
+        elif _Ship == 'S' and (fir_x < 0 or sec_x < 0 or thi_x < 0):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'S' and numS == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'S':
+            playerGrid[fir_y][fir_x] = 'S'
+            playerGrid[sec_y][sec_x] = 'S'
+            playerGrid[thi_y][thi_x] = 'S'
+
+            numS -= 1
+            break
+
+        elif _Ship == 'C' and (fir_x < 0 or sec_x < 0 or thi_x < 0):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'C' and numC == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'C':
+            playerGrid[fir_y][fir_x] = 'C'
+            playerGrid[sec_y][sec_x] = 'C'
+            playerGrid[thi_y][thi_x] = 'C'
+
+            numC -= 1
+            break
+
+        elif _Ship == 'D' and (fir_x < 0 or sec_x < 0):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'D' and numD == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'D':
+            playerGrid[fir_y][fir_x] = 'D'
+            playerGrid[sec_y][sec_x] = 'D'
+
+            numD -= 1
+            break
+
+        elif _Ship == 'P' and fir_x < 0:
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'P' and numP == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'P':
+            playerGrid[fir_y][fir_x] = 'P'
+
+            numP -= 1
+            break
+
+    elif _Direction == 'R':
         sec_x = fir_x + 1
-        thi_x = sec_x + 1
-        fou_x = thi_x + 1
-        fif_x = fou_x + 1
-        if sec_x > 9 or thi_x > 9 or fou_x > 9 or fif_x > 9:
+        thi_x = fir_x + 2
+        fou_x = fir_x + 3
+        fif_x = fir_x + 4
+
+        if _Ship == 'A' and (fir_x > 9 or sec_x > 9 or thi_x > 9 or fou_x > 9 or fif_x > 9):
             print('Ship Goes Outside the Bounds of the Board.')
             continue
-        else:
+
+        elif _Ship == 'A' and numA == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'A':
             playerGrid[fir_y][fir_x] = 'A'
             playerGrid[sec_y][sec_x] = 'A'
             playerGrid[thi_y][thi_x] = 'A'
             playerGrid[fou_y][fou_x] = 'A'
             playerGrid[fif_y][fif_x] = 'A'
+
+            numA -= 1
             break
+
+        elif _Ship == 'B' and (fir_x > 9 or sec_x > 9 or thi_x > 9 or fou_x > 9):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'B' and numB == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'B':
+            playerGrid[fir_y][fir_x] = 'B'
+            playerGrid[sec_y][sec_x] = 'B'
+            playerGrid[thi_y][thi_x] = 'B'
+            playerGrid[fou_y][fou_x] = 'B'
+
+            numB -= 1
+            break
+
+        elif _Ship == 'S' and (fir_x > 9 or sec_x > 9 or thi_x > 9):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'S' and numS == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'S':
+            playerGrid[fir_y][fir_x] = 'S'
+            playerGrid[sec_y][sec_x] = 'S'
+            playerGrid[thi_y][thi_x] = 'S'
+
+            numS -= 1
+            break
+
+        elif _Ship == 'C' and (fir_x > 9 or sec_x > 9 or thi_x > 9):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'C' and numC == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'C':
+            playerGrid[fir_y][fir_x] = 'C'
+            playerGrid[sec_y][sec_x] = 'C'
+            playerGrid[thi_y][thi_x] = 'C'
+
+            numC -= 1
+            break
+
+        elif _Ship == 'D' and (fir_x > 9 or sec_x > 9):
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'D' and numD == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'D':
+            playerGrid[fir_y][fir_x] = 'D'
+            playerGrid[sec_y][sec_x] = 'D'
+
+            numD -= 1
+            break
+
+        elif _Ship == 'P' and fir_x > 9:
+            print('Ship Goes Outside the Bounds of the Board.')
+            continue
+
+        elif _Ship == 'P' and numP == 0:
+            print('No More Ships to Place.')
+            continue
+
+        elif _Ship == 'P':
+            playerGrid[fir_y][fir_x] = 'P'
+
+            numP -= 1
+            break
+
     else:
+        print('Invalid Direction.')
         continue
 
 
