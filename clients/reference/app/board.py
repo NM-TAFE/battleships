@@ -34,23 +34,23 @@ class Board:
               "and to the right if horizontal.")
         carrier_coord = int(input("Select carrier position"))
         battleship_coord = int(input("Select battleship position (0-99): "))
-        battleship_orient = int(input("Select orientation (H/V): "))
+        battleship_orient = str(input("Select orientation (H/V): "))
         sub1_coord = int(input("Select submarine position(0-99): "))
-        sub1_orient = int(input("Select orientation (H/V): "))
+        sub1_orient = str(input("Select orientation (H/V): "))
         sub2_coord = int(input("Select second submarine position(0-99): "))
-        sub2_orient = int(input("Select orientation (H/V): "))
+        sub2_orient = str(input("Select orientation (H/V): "))
         sub3_coord = int(input("Select third submarine position(0-99): "))
-        sub3_orient = int(input("Select orientation (H/V): "))
+        sub3_orient = str(input("Select orientation (H/V): "))
         cruiser_coord = int(input("Select cruiser position (0-99): "))
-        cruiser_orient = int(input("Select orientation (H/V): "))
+        cruiser_orient = str(input("Select orientation (H/V): "))
         destroyer1_coord = int(input("Select destroyer position(0-99): "))
-        destroyer1_orient = int(input("Select orientation (H/V): "))
+        destroyer1_orient = str(input("Select orientation (H/V): "))
         destroyer2_coord = int(input("Select second destroyer position(0-99): "))
-        destroyer2_orient = int(input("Select orientation (H/V): "))
+        destroyer2_orient = str(input("Select orientation (H/V): "))
         ptboat1_coord = int(input("Select patrol boat position(0-99): "))
-        ptboat1_orient = int(input("Select orientation (H/V): "))
+        ptboat1_orient = str(input("Select orientation (H/V): "))
         ptboat2_coord = int(input("Select second patrol boat position(0-99): "))
-        ptboat2_orient = int(input("Select orientation (H/V): "))
+        ptboat2_orient = str(input("Select orientation (H/V): "))
 
 
     # method that checks if a space a player requests for a piece is free
@@ -66,6 +66,21 @@ class Board:
                 if self.playerBoard[coord+i] == "S":
                     is_free = False
         return is_free
+
+
+    def place_piece(self, coord, orientation, spaces):
+        while self.check_free(coord, orientation, spaces) == False:
+            new_coord = int(input("Space occupied. Please select another coordinate: "))
+            new_orient= str(input("Select orientation: "))
+            self.check_free(new_coord, new_orient, spaces)
+        self.playerBoard[coord] = "S"
+        if orientation == "H":
+            for i in range(1, spaces):
+                self.playerBoard[coord + i] = "S"
+        elif orientation == "V":
+            for i in range(1, spaces):
+                self.playerBoard[coord + 10*i] = "S"
+
 
 
 
