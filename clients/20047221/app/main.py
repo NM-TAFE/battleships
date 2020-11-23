@@ -64,17 +64,45 @@ global fou_y
 global fif_x
 global fif_y
 
-global numA
-
+numA = 1
 numB = 1
 numS = 3
 numC = 1
 numD = 2
 numP = 2
 
+shipBlocks = 27
+
 while True:
-    print('You have 1 A)ircraft Carrier, 1 B)attleship, 3 S)ubmarines, 1 C)ruiser, 2 D)estroyers, and 2 P)atrol Boats.')
-    Ship = input('Choose a Ship to Place> ')
+    if numA == 0 and numB == 0 and numS == 0 and numC == 0 and numD == 0 and numP == 0:
+        print('All Ships have been Placed. Are you Happy with your Placement?')
+        ready = input('Y / N > ')
+        _ready = ready[0].upper()
+        if _ready == 'Y':
+            break
+        elif _ready == 'N':
+            print('Ship Placement has been Reset.')
+            playerGrid = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+            numA = 1
+            numB = 1
+            numS = 3
+            numC = 1
+            numD = 2
+            numP = 2
+            continue
+
+    print(
+        f'You have {numA} A)ircraft Carrier, {numB} B)attleship, {numS} S)ubmarines, {numC} C)ruiser, {numD} D)estroyers, and {numP} P)atrol Boats.')
+    Ship = input('Choose a Ship to Place > ')
     _Ship = Ship[0].upper()
 
     print('Where do you want to place the Aircraft Carrier?')
@@ -88,8 +116,8 @@ while True:
         else:
             print('Invalid Character')
 
-    print("""U)p, D)own, L)eft, or R)ight?""")
-    Direction = input('Choose a Direction> ')
+    print('U)p, D)own, L)eft, or R)ight?')
+    Direction = input('Choose a Direction > ')
     _Direction = Direction[0].upper()
     if _Direction == 'U':
         sec_y = fir_y - 1
@@ -510,7 +538,7 @@ def begin():
 
 @battleship.on()
 def start_turn():
-    s = input('Your move> ')
+    s = input('Your move > ')
     _s = s[0].upper()
     for char in s:
         if char.isdigit():
@@ -527,20 +555,20 @@ def start_turn():
 
 @battleship.on()
 def hit():
-    print('You hit the target!')
     enemyGrid[current_y][current_x] = 'X'
+    print('You hit the target!')
 
 
 @battleship.on()
 def miss():
-    print('Aww.. You missed!')
     enemyGrid[current_y][current_x] = 'O'
+    print('Aww.. You missed!')
 
 
 @battleship.on()
 def win():
-    print('Yay! You won!')
     enemyGrid[current_y][current_x] = 'X'
+    print('Yay! You won!')
     playing.clear()
 
 
@@ -566,26 +594,96 @@ def attack(vector):
             print('Invalid Character')
 
     while True:
-        print("""H)it, M)iss, or D)efeat?""")
-        s = input('Enter status> ')
-        _s = s[0].upper()
-        if _s == 'H':
+        global shipBlocks
+
+        if playerGrid[enemy_y][enemy_x] != 0:
+            print(f'Enemy Hit a Ship at {vector}.')
             playerGrid[enemy_y][enemy_x] = 'X'
-            battleship.hit()
+            shipBlocks -= 1
+            if shipBlocks == 0:
+                battleship.defeat()
+            else:
+                battleship.hit()
             break
-        elif _s == 'M':
-            playerGrid[enemy_y][enemy_x] = 'X'
-            battleship.miss()
-            break
-        elif _s == 'D':
+        elif playerGrid[enemy_y][enemy_x] == 0:
+            print(f'Enemy Missed at {vector}.')
             playerGrid[enemy_y][enemy_x] = 'O'
-            battleship.defeat()
+            battleship.miss()
             break
         else:
             continue
+
+
+def show_player_grid():
+    print('     1     2     3     4     5     6     7     8     9     10')
+    z = 0
+    while z < 10:
+        a = playerGrid[z][0]
+        b = playerGrid[z][0]
+        c = playerGrid[z][0]
+        d = playerGrid[z][0]
+        e = playerGrid[z][0]
+        f = playerGrid[z][0]
+        g = playerGrid[z][0]
+        h = playerGrid[z][0]
+        i = playerGrid[z][0]
+        j = playerGrid[z][0]
+        Y = chr(z + 65)
+        print('  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +')
+        print(f'{Y} |  {a}  |  {b}  |  {c}  |  {d}  |  {e}  |  {f}  |  {g}  |  {h}  |  {i}  |  {j}  |')
+        z += 1
+    print('  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +')
+
+
+def show_enemy_grid():
+    print('     1     2     3     4     5     6     7     8     9     10')
+    z = 0
+    while z < 10:
+        a = enemyGrid[z][0]
+        b = enemyGrid[z][0]
+        c = enemyGrid[z][0]
+        d = enemyGrid[z][0]
+        e = enemyGrid[z][0]
+        f = enemyGrid[z][0]
+        g = enemyGrid[z][0]
+        h = enemyGrid[z][0]
+        i = enemyGrid[z][0]
+        j = enemyGrid[z][0]
+        Y = chr(z + 65)
+        print('  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +')
+        print(f'{Y} |  {a}  |  {b}  |  {c}  |  {d}  |  {e}  |  {f}  |  {g}  |  {h}  |  {i}  |  {j}  |')
+        z += 1
+    print('  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +')
 
 
 print('Waiting for the game to start...')
 battleship.join()
 while playing.is_set():
     time.sleep(1.0)
+
+'''
+
+     1     2     3     4     5     6     7     8     9     10
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+A |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+B |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+C |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+D |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+E |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+F |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+G |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+H |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+I |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+J |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |  0  |
+  + --- + --- + --- + --- + --- + --- + --- + --- + --- + --- +
+
+'''
