@@ -11,7 +11,7 @@ playing = threading.Event()
 playing.set()
 
 battleship = Battleship(grpc_host=grpc_host, grpc_port=grpc_port)
-game = Board(setboard, hitboard)
+game = Board()
 
 
 
