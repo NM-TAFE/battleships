@@ -1,4 +1,7 @@
 def display_grid(player, enemy):
+    """
+    Display Grid to console 
+    """
     table_head = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     print("\n\n\n" + " " * 25 + " Your Table" + " " * 100 + "Enemy Table")
     print(" " * 5, end="|")
@@ -24,6 +27,10 @@ def display_grid(player, enemy):
 
 
 class GridTable:
+    """
+    Dictionary for table grid
+
+    """
     grid1 = {"A": [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
              "B": [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
              "C": [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "],

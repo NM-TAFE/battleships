@@ -42,7 +42,8 @@ def hit():
     col = int(my_attack[1:]) - 1
     for key in player2:
         if key == row:
-            player2[key][col] == "Hit"
+            player2[key].pop(col)
+            player2[key].insert(col, 'Hit')
     clear()
     Grid.display_grid(player1, player2)
     print('\n\nYou hit the target!')
@@ -54,7 +55,8 @@ def miss():
     col = int(my_attack[1:]) - 1
     for key in player2:
         if key == row:
-            player2[key][col] = "Miss"
+            player2[key].pop(col)
+            player2[key].insert(col, 'Miss')
     clear()
     Grid.display_grid(player1, player2)
     print('\n\nAww.. You missed!')
