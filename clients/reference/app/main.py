@@ -2,7 +2,7 @@ import os
 import threading
 import time
 from client import Battleship
-from board import Board
+import board
 
 grpc_host = os.getenv('GRPC_HOST', 'localhost')
 grpc_port = os.getenv('GRPC_PORT', '50051')
@@ -11,8 +11,9 @@ playing = threading.Event()
 playing.set()
 
 battleship = Battleship(grpc_host=grpc_host, grpc_port=grpc_port)
-game = Board()
+game = board
 
+game.playerBoard
 
 
 @battleship.on()
