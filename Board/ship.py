@@ -1,6 +1,5 @@
-import Grid
+from Board import board
 
-pos = "H10"
 type_of_ships = ["Patrol Boat", "Patrol Boat", "Destroyer", "Destroyer", "Cruiser", "Submarine", "Submarine",
                  "Submarine", "Battleship", "Aircraft Carrier"]
 
@@ -58,14 +57,12 @@ def placement(player1, player2):
                             boat_number += 1
                             if boat_number == max_ship:
                                 placing = False
-                            Grid.display_grid(player1, player2)
+                            board.display_grid(player1, player2)
                             break
                         else:
                             placing_direction = False
-
                     else:
                         print("Incorrect Input")
-
             else:
                 print("Please Use Value between A-J and 1-10: Example Input: A2, J10, G5")
         else:
@@ -77,7 +74,6 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
     """Checks for ship placement overlaps and assign ships Tag to grid
         direction value 1.Left 2.Right 3.Top 4.Bottom
     """
-
     location = [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     vector_alpha_location = 0
     for i in range(len(location)):
@@ -92,7 +88,6 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
             return table, False
 
     elif boat_type == "D":
-
         if direction == 1:
             if num_value - 1 < 1:
                 print("Ship cannot be place outside of grid")
@@ -100,8 +95,7 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
 
             if table[alp_value][num_value - 1] == " " and table[alp_value][num_value - 2] == " ":
 
-                table[alp_value][num_value - 1] = boat_type
-                table[alp_value][num_value - 2] = boat_type
+                place_ship_left_right(table, boat_type, alp_value, num_value, 2, 1)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -113,8 +107,8 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
 
             if table[alp_value][num_value - 1] == " " and table[alp_value][num_value] == " ":
 
-                table[alp_value][num_value - 1] = boat_type
-                table[alp_value][num_value] = boat_type
+                place_ship_left_right(table, boat_type, alp_value, num_value, 2, 2)
+
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -126,10 +120,8 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                         print("Ship cannot be place outside of grid")
                         return table, False
 
-            if table[alp_value][num_value - 1] == " " and table[location[vector_alpha_location - 1]][
-                    num_value - 1] == " ":
-                table[alp_value][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 1]][num_value - 1] = boat_type
+            if check_free_space_top_bot(table, alp_value, num_value, location, vector_alpha_location, 2, 3):
+                place_ship_top_bot(table, boat_type, alp_value, num_value, location, vector_alpha_location, 2, 3)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -141,10 +133,8 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                         print("Ship cannot be place outside of grid")
                         return table, False
 
-            if table[alp_value][num_value - 1] == " " and table[location[vector_alpha_location + 1]][
-                    num_value - 1] == " ":
-                table[alp_value][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 1]][num_value - 1] = boat_type
+            if check_free_space_top_bot(table, alp_value, num_value, location, vector_alpha_location, 2, 4):
+                place_ship_top_bot(table, boat_type, alp_value, num_value, location, vector_alpha_location, 2, 4)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -158,9 +148,7 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
             if table[alp_value][num_value - 1] == " " and table[alp_value][num_value - 2] == " " and table[alp_value][
                     num_value - 3] == " ":
 
-                table[alp_value][num_value - 1] = boat_type
-                table[alp_value][num_value - 2] = boat_type
-                table[alp_value][num_value - 3] = boat_type
+                place_ship_left_right(table, boat_type, alp_value, num_value, 3, 1)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -173,9 +161,7 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
             if table[alp_value][num_value - 1] == " " and table[alp_value][num_value] == " " and table[alp_value][
                     num_value + 1] == " ":
 
-                table[alp_value][num_value - 1] = boat_type
-                table[alp_value][num_value] = boat_type
-                table[alp_value][num_value + 1] = boat_type
+                place_ship_left_right(table, boat_type, alp_value, num_value, 3, 2)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -187,12 +173,9 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                         print("Ship cannot be place outside of grid")
                         return table, False
 
-            if table[alp_value][num_value - 1] == " " and table[location[vector_alpha_location - 1]][
-                    num_value - 1] == " " and table[location[vector_alpha_location - 2]][num_value - 1] == " ":
+            if check_free_space_top_bot(table, alp_value, num_value, location, vector_alpha_location, 3, 3):
 
-                table[alp_value][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 1]][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 2]][num_value - 1] = boat_type
+                place_ship_top_bot(table, boat_type, alp_value, num_value, location, vector_alpha_location, 3, 3)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -203,12 +186,9 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                     if down + 2 > 10:
                         print("Ship cannot be place outside of grid")
                         return table, False
-            if table[alp_value][num_value - 1] == " " and table[location[vector_alpha_location + 1]][
-                    num_value - 1] == " " and table[location[vector_alpha_location + 2]][num_value - 1] == " ":
+            if check_free_space_top_bot(table, alp_value, num_value, location, vector_alpha_location, 3, 4):
 
-                table[alp_value][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 1]][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 2]][num_value - 1] = boat_type
+                place_ship_top_bot(table, boat_type, alp_value, num_value, location, vector_alpha_location, 3, 4)
             else:
                 print("There is not enough room to place ship at this location")
 
@@ -220,11 +200,7 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
 
             if table[alp_value][num_value - 1] == " " and table[alp_value][num_value - 2] == " " and table[alp_value][
                     num_value - 3] == " " and table[alp_value][num_value - 4] == " ":
-
-                table[alp_value][num_value - 1] = boat_type
-                table[alp_value][num_value - 2] = boat_type
-                table[alp_value][num_value - 3] = boat_type
-                table[alp_value][num_value - 4] = boat_type
+                place_ship_left_right(table, boat_type, alp_value, num_value, 4, 1)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -236,11 +212,7 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
 
             if table[alp_value][num_value - 1] == " " and table[alp_value][num_value] == " " and table[alp_value][
                     num_value + 1] == " " and table[alp_value][num_value + 2] == " ":
-
-                table[alp_value][num_value - 1] = boat_type
-                table[alp_value][num_value] = boat_type
-                table[alp_value][num_value + 1] = boat_type
-                table[alp_value][num_value + 2] = boat_type
+                place_ship_left_right(table, boat_type, alp_value, num_value, 4, 2)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -251,15 +223,8 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                     if up - 3 < 1:
                         print("Ship cannot be place outside of grid")
                         return table, False
-
-            if table[alp_value][num_value - 1] == " " and table[location[vector_alpha_location - 1]][
-                num_value - 1] == " " and table[location[vector_alpha_location - 2]][num_value - 1] == " " \
-                    and table[location[vector_alpha_location - 3]][num_value - 1] == " ":
-
-                table[alp_value][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 1]][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 2]][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 3]][num_value - 1] = boat_type
+            if check_free_space_top_bot(table, alp_value, num_value, location, vector_alpha_location, 4, 3):
+                place_ship_top_bot(table, boat_type, alp_value, num_value, location, vector_alpha_location, 4, 3)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -270,14 +235,9 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                     if down + 3 > 10:
                         print("Ship cannot be place outside of grid")
                         return table, False
-            if table[alp_value][num_value - 1] == " " and table[location[vector_alpha_location + 1]][
-                num_value - 1] == " " and table[location[vector_alpha_location + 2]][num_value - 1] == " " \
-                    and table[location[vector_alpha_location + 3]][num_value - 1] == " ":
+            if check_free_space_top_bot(table, alp_value, num_value, location, vector_alpha_location, 4, 4):
 
-                table[alp_value][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 1]][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 2]][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 3]][num_value - 1] = boat_type
+                place_ship_top_bot(table, boat_type, alp_value, num_value, location, vector_alpha_location, 4, 4)
             else:
                 print("There is not enough room to place ship at this location")
 
@@ -291,11 +251,7 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                 num_value - 3] == " " and table[alp_value][num_value - 4] == " " \
                     and table[alp_value][num_value - 5] == " ":
 
-                table[alp_value][num_value - 1] = boat_type
-                table[alp_value][num_value - 2] = boat_type
-                table[alp_value][num_value - 3] = boat_type
-                table[alp_value][num_value - 4] = boat_type
-                table[alp_value][num_value - 5] = boat_type
+                place_ship_left_right(table, boat_type, alp_value, num_value, 5, 1)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -309,11 +265,7 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                 num_value + 1] == " " and table[alp_value][num_value + 2] == " " \
                     and table[alp_value][num_value + 3] == " ":
 
-                table[alp_value][num_value - 1] = boat_type
-                table[alp_value][num_value] = boat_type
-                table[alp_value][num_value + 1] = boat_type
-                table[alp_value][num_value + 2] = boat_type
-                table[alp_value][num_value + 3] = boat_type
+                place_ship_left_right(table, boat_type, alp_value, num_value, 5, 2)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -325,16 +277,9 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                         print("Ship cannot be place outside of grid")
                         return table, False
 
-            if table[alp_value][num_value - 1] == " " and table[location[vector_alpha_location - 1]][
-                num_value - 1] == " " and table[location[vector_alpha_location - 2]][num_value - 1] == " " \
-                    and table[location[vector_alpha_location - 3]][num_value - 1] == " " \
-                    and table[location[vector_alpha_location - 4]][num_value - 1] == " ":
+            if check_free_space_top_bot(table, alp_value, num_value, location, vector_alpha_location, 5, 3):
 
-                table[alp_value][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 1]][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 2]][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 3]][num_value - 1] = boat_type
-                table[location[vector_alpha_location - 4]][num_value - 1] = boat_type
+                place_ship_top_bot(table, boat_type, alp_value, num_value, location, vector_alpha_location, 5, 3)
             else:
                 print("There is not enough room to place ship at this location")
                 return table, False
@@ -345,17 +290,53 @@ def place_ship(table, alp_value, num_value, direction, boat_type):
                     if down + 4 > 10:
                         print("Ship cannot be place outside of grid")
                         return table, False
-            if table[alp_value][num_value - 1] == " " and table[location[vector_alpha_location + 1]][
-                num_value - 1] == " " and table[location[vector_alpha_location + 2]][num_value - 1] == " " \
-                    and table[location[vector_alpha_location + 3]][num_value - 1] == " " \
-                    and table[location[vector_alpha_location + 4]][num_value - 1] == " ":
+            if check_free_space_top_bot(table, alp_value, num_value, location, vector_alpha_location, 5, 4):
 
-                table[alp_value][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 1]][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 2]][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 3]][num_value - 1] = boat_type
-                table[location[vector_alpha_location + 4]][num_value - 1] = boat_type
+                place_ship_top_bot(table, boat_type, alp_value, num_value, location, vector_alpha_location, 5, 4)
             else:
                 print("There is not enough room to place ship at this location")
     return table, True
-    pass
+
+
+def place_ship_left_right(table, boat_type, alp_value, num_value, slot_needed, direction):
+    position = num_value - 1
+    for i in range(slot_needed):
+        table[alp_value][position] = boat_type
+        if direction == 1:
+            position -= 1
+        else:
+            position += 1
+
+
+def place_ship_top_bot(table, boat_type, alp_value, num_value, location, vector_alpha_index, slot_needed, direction):
+    position = num_value - 1
+    index_position = vector_alpha_index
+    loop = slot_needed - 1
+    table[alp_value][position] = boat_type
+    for i in range(loop):
+        if direction == 3:
+            index_position -= 1
+        else:
+            index_position += 1
+        table[location[index_position]][position] = boat_type
+
+
+def check_free_space_top_bot(table, al_value, num_value, location, vector_alpha_index, slot_needed, direction):
+    position = num_value - 1
+    index_position = vector_alpha_index
+    loop = slot_needed - 1
+    empty_slot_count = 0
+    if table[al_value][position] == " ":
+        empty_slot_count += 1
+    for i in range(loop):
+        if direction == 3:
+            index_position -= 1
+        else:
+            index_position += 1
+        if table[location[index_position]][position] == " ":
+            empty_slot_count += 1
+    if empty_slot_count == slot_needed:
+        return True
+    else:
+        return False
+
