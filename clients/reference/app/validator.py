@@ -1,5 +1,6 @@
 class MoveValidator:
 
+    # class takes coordinates, orient, spaces, and board as constructors
     def __init__(self, coord, orient, spaces, board):
         self.coordinate = coord
         self.orientation = orient
@@ -24,6 +25,7 @@ class MoveValidator:
         else:
             return self.orientation
 
+    # blah blah blah
     # method that checks ensuing places ship is placed are all free
     def check_spaces(self):
         try:
@@ -44,6 +46,10 @@ class MoveValidator:
             self.coordinate = int(input('The piece you entered fell off the edge. Pick another coordinate: '))
             self.check()
             return
+
+    # method to check if piece attempts to wrap around board
+    def wrap_around(self):
+        pass
 
     # method that puts together all other methods
     def check(self):

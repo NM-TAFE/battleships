@@ -6,7 +6,7 @@ import redis
 import threading
 import time
 import uuid
-import log
+from server.app import log
 from server.app.battleships_pb2 import Attack, Response, Status
 from server.app.battleships_pb2_grpc import BattleshipsServicer
 from server.app.game import Game
