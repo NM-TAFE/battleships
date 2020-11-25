@@ -4,8 +4,8 @@ import time
 
 from client import Battleship
 
-from Board import board, ship
-
+from clients.reference.app.Board import ship
+from clients.reference.app.Board import board
 
 grpc_host = os.getenv('GRPC_HOST', 'localhost')
 grpc_port = os.getenv('GRPC_PORT', '50051')
@@ -102,17 +102,14 @@ def attack(vector):
 
 if __name__ == '__main__':
     board.display_grid(player1, player2)
-
     player_table = ship.placement(player1, player2)
     board.display_grid(player_table, player2)
-
     while True:
         s = input("\nReady to join? Y/N : ")
         if s[0].upper() == 'Y':
             break
         else:
             continue
-
     print('\nWaiting for the game to start...')
     battleship.join()
     while playing.is_set():

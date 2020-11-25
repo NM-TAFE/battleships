@@ -1,4 +1,4 @@
-from Board import board
+from clients.reference.app.Board import board
 
 type_of_ships = ["Patrol Boat", "Patrol Boat", "Destroyer", "Destroyer", "Cruiser", "Submarine", "Submarine",
                  "Submarine", "Battleship", "Aircraft Carrier"]
