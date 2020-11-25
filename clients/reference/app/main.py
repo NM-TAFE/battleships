@@ -1,15 +1,29 @@
 import os
 import threading
 import time
+
 from client import Battleship
 
-grpc_host = os.getenv('GRPC_HOST', 'b.sndm.me')
+from clients.reference.app.Board import ship
+from clients.reference.app.Board import board
+
+grpc_host = os.getenv('GRPC_HOST', 'localhost')
 grpc_port = os.getenv('GRPC_PORT', '50051')
+
 
 playing = threading.Event()
 playing.set()
 
 battleship = Battleship(grpc_host=grpc_host, grpc_port=grpc_port)
+
+player1 = board.player1_table()
+player2 = board.player2_table()
+
+my_attack = "a"
+
+
+def clear():
+    print("\n" * 100)
 
 
 @battleship.on()
@@ -19,53 +33,84 @@ def begin():
 
 @battleship.on()
 def start_turn():
+    print("\n")
     s = input('Your move> ')
+    global my_attack
+    my_attack = s
     battleship.attack(s)
 
 
 @battleship.on()
 def hit():
-    print('You hit the target!')
+    row = my_attack[0].upper()
+    col = int(my_attack[1:]) - 1
+    player2[row][col] = "Hit"
+    clear()
+    board.display_grid(player1, player2)
+    print('\n\nYou hit the target!')
 
 
 @battleship.on()
 def miss():
-    print('Aww.. You missed!')
+    row = my_attack[0].upper()
+    col = int(my_attack[1:]) - 1
+    player2[row][col] = "Miss"
+    clear()
+    board.display_grid(player1, player2)
+    print('\n\nAww.. You missed!')
 
 
 @battleship.on()
 def win():
-    print('Yay! You won!')
+    print('\n\nYay! You won!')
     playing.clear()
 
 
 @battleship.on()
 def lose():
-    print('Aww... You lost...')
+    print('\n\nAww... You lost...')
     playing.clear()
 
 
 @battleship.on()
 def attack(vector):
-    vector = vector[0]
-    print(f'Shot received at {vector}')
-    while True:
-        print("""H)it, m)iss, or d)efeat?""")
-        s = input('Enter status> ')
-        if len(s):
-            _s = s[0].upper()
-            if _s == 'H':
-                battleship.hit()
-                break
-            elif _s == 'M':
-                battleship.miss()
-                break
-            elif _s == 'D':
+    position = vector[0].upper()
+    row = position[0]
+    col = int(position[1:]) - 1
+    if row in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']:
+        print(f"\n Shot received at {position}")
+        if player1[row][col] in [" ", "Miss"]:
+            player1[row][col] = "Miss"
+            """Send Miss event"""
+            battleship.miss()
+        else:
+            player1[row][col] = "Hit"
+            """Send Hit Or Defeat Event"""
+            board.display_grid(player1, player2)
+            print("""\n\nAll Ships Sunk? Y/N""")
+            answer = input("Enter Y or N: ")
+            if answer[0].upper() == 'Y':
                 battleship.defeat()
-                break
+            else:
+                battleship.hit()
+        board.display_grid(player1, player2)
+    else:
+        board.display_grid(player1, player2)
+        print(f"\nEnemy sending attack coordinate outside of grid value :::{vector[0]}")
+        battleship.miss()
 
 
-print('Waiting for the game to start...')
-battleship.join()
-while playing.is_set():
-    time.sleep(1.0)
+if __name__ == '__main__':
+    board.display_grid(player1, player2)
+    player_table = ship.placement(player1, player2)
+    board.display_grid(player_table, player2)
+    while True:
+        s = input("\nReady to join? Y/N : ")
+        if s[0].upper() == 'Y':
+            break
+        else:
+            continue
+    print('\nWaiting for the game to start...')
+    battleship.join()
+    while playing.is_set():
+        time.sleep(1.0)
