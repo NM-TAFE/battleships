@@ -1,6 +1,8 @@
 import os
 import threading
 import time
+from playsound import playsound
+
 from client import Battleship
 
 grpc_host = os.getenv('GRPC_HOST', 'localhost')
@@ -56,14 +58,16 @@ def attack(vector):
             _s = s[0].upper()
             if _s == 'H':
                 battleship.hit()
+                playsound('hit.mp3')
                 break
             elif _s == 'M':
                 battleship.miss()
+                playsound('miss.mp3')
                 break
             elif _s == 'D':
                 battleship.defeat()
+                playsound('defeat.mp3')
                 break
-
 
 print('Waiting for the game to start...')
 battleship.join()
