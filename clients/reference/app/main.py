@@ -4,14 +4,10 @@ import time
 
 from client import Battleship
 
-<<<<<<< HEAD
 from clients.reference.app.Board import ship
 from clients.reference.app.Board import board
 
 grpc_host = os.getenv('GRPC_HOST', 'localhost')
-=======
-grpc_host = os.getenv('GRPC_HOST', 'b.sndm.me')
->>>>>>> 6883eedf3b53ed8d5cbbda19237b89536d06758d
 grpc_port = os.getenv('GRPC_PORT', '50051')
 
 
@@ -19,6 +15,15 @@ playing = threading.Event()
 playing.set()
 
 battleship = Battleship(grpc_host=grpc_host, grpc_port=grpc_port)
+
+player1 = board.player1_table()
+player2 = board.player2_table()
+
+my_attack = "a"
+
+
+def clear():
+    print("\n" * 100)
 
 
 @battleship.on()
@@ -28,17 +33,30 @@ def begin():
 
 @battleship.on()
 def start_turn():
+    print("\n")
     s = input('Your move> ')
+    global my_attack
+    my_attack = s
     battleship.attack(s)
 
 
 @battleship.on()
 def hit():
+    row = my_attack[0].upper()
+    col = int(my_attack[1:]) - 1
+    player2[row][col] = "Hit"
+    clear()
+    board.display_grid(player1, player2)
     print('\n\nYou hit the target!')
 
 
 @battleship.on()
 def miss():
+    row = my_attack[0].upper()
+    col = int(my_attack[1:]) - 1
+    player2[row][col] = "Miss"
+    clear()
+    board.display_grid(player1, player2)
     print('\n\nAww.. You missed!')
 
 
@@ -56,16 +74,25 @@ def lose():
 
 @battleship.on()
 def attack(vector):
-    vector = vector[0]
-    print(f'Shot received at {vector}')
-    while True:
-        print("""H)it, m)iss, or d)efeat?""")
-        s = input('Enter status> ')
-        if len(s):
-            _s = s[0].upper()
-            if _s == 'H':
+    position = vector[0].upper()
+    row = position[0]
+    col = int(position[1:]) - 1
+    if row in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']:
+        print(f"\n Shot received at {position}")
+        if player1[row][col] in [" ", "Miss"]:
+            player1[row][col] = "Miss"
+            """Send Miss event"""
+            battleship.miss()
+        else:
+            player1[row][col] = "Hit"
+            """Send Hit Or Defeat Event"""
+            board.display_grid(player1, player2)
+            print("""\n\nAll Ships Sunk? Y/N""")
+            answer = input("Enter Y or N: ")
+            if answer[0].upper() == 'Y':
+                battleship.defeat()
+            else:
                 battleship.hit()
-<<<<<<< HEAD
         board.display_grid(player1, player2)
     else:
         board.display_grid(player1, player2)
@@ -87,18 +114,3 @@ if __name__ == '__main__':
     battleship.join()
     while playing.is_set():
         time.sleep(1.0)
-=======
-                break
-            elif _s == 'M':
-                battleship.miss()
-                break
-            elif _s == 'D':
-                battleship.defeat()
-                break
-
-                
-print('\nWaiting for the game to start...')
-battleship.join()
-while playing.is_set():
-    time.sleep(1.0)
->>>>>>> 6883eedf3b53ed8d5cbbda19237b89536d06758d
