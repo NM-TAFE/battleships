@@ -1,7 +1,7 @@
 import os
 import threading
 import time
-from client import Battleship
+from clients.reference.client import Battleship
 import board
 
 grpc_host = os.getenv('GRPC_HOST', 'localhost')
@@ -11,9 +11,8 @@ playing = threading.Event()
 playing.set()
 
 battleship = Battleship(grpc_host=grpc_host, grpc_port=grpc_port)
-game = board
 
-game.playerBoard
+game = board.Board()
 
 
 @battleship.on()
@@ -70,15 +69,14 @@ def attack(vector):
     print(f'Shot received at {vector}')
     while True:
         print("""H)it, m)iss, or d)efeat?""")
-        s = input('Enter status> ')
-        _s = s[0].upper()
-        if _s == 'H':
+        s = game.check_strike(vector)
+        if s == 'hit':
             battleship.hit()
             break
-        elif _s == 'M':
+        elif s == 'miss':
             battleship.miss()
             break
-        elif _s == 'D':
+        elif s == 'D':
             battleship.defeat()
             break
         else:

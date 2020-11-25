@@ -29,7 +29,7 @@ class Board:
         return self.playerBoard, self.hitBoard
 
     # method that takes index of hits as input and displays it in a board
-    def draw_board(self, board):
+    def draw_player_board(self):
         print("      00 |01 |02 |03 |04 |05 |06 |07 |08 |09  ")
         print("----------------------------------------------")
         print(" 00 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[0] + " | " +
@@ -39,48 +39,85 @@ class Board:
         print(" 10 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[10] + " | " +
               self.playerBoard[11] + " | " + self.playerBoard[12] + " | " + self.playerBoard[13] + " | " +
               self.playerBoard[14] + " | " + self.playerBoard[15] + " | " + self.playerBoard[16] + " | " +
-              self.playerBoard[17] + " | " + self.playerBoard[18] + " | " + self.playerBoard[
-                  19] + "  " + Style.RESET_ALL)
+              self.playerBoard[17] + " | " + self.playerBoard[18] + " | " + self.playerBoard[19] + "  " + Style.RESET_ALL)
         print(" 02 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[20] + " | " +
               self.playerBoard[21] + " | " + self.playerBoard[22] + " | " + self.playerBoard[23] + " | " +
               self.playerBoard[24] + " | " + self.playerBoard[25] + " | " + self.playerBoard[26] + " | " +
-              self.playerBoard[27] + " | " + self.playerBoard[28] + " | " + self.playerBoard[
-                  29] + "  " + Style.RESET_ALL)
+              self.playerBoard[27] + " | " + self.playerBoard[28] + " | " + self.playerBoard[29] + "  " + Style.RESET_ALL)
         print(" 30 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[30] + " | " +
               self.playerBoard[31] + " | " + self.playerBoard[32] + " | " + self.playerBoard[33] + " | " +
               self.playerBoard[34] + " | " + self.playerBoard[35] + " | " + self.playerBoard[36] + " | " +
-              self.playerBoard[37] + " | " + self.playerBoard[38] + " | " + self.playerBoard[
-                  39] + "  " + Style.RESET_ALL)
+              self.playerBoard[37] + " | " + self.playerBoard[38] + " | " + self.playerBoard[39] + "  " + Style.RESET_ALL)
         print(" 40 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[40] + " | " +
               self.playerBoard[41] + " | " + self.playerBoard[42] + " | " + self.playerBoard[43] + " | " +
               self.playerBoard[44] + " | " + self.playerBoard[45] + " | " + self.playerBoard[46] + " | " +
-              self.playerBoard[47] + " | " + self.playerBoard[48] + " | " + self.playerBoard[
-                  49] + "  " + Style.RESET_ALL)
+              self.playerBoard[47] + " | " + self.playerBoard[48] + " | " + self.playerBoard[49] + "  " + Style.RESET_ALL)
         print(" 50 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[50] + " | " +
               self.playerBoard[51] + " | " + self.playerBoard[52] + " | " + self.playerBoard[53] + " | " +
               self.playerBoard[54] + " | " + self.playerBoard[55] + " | " + self.playerBoard[56] + " | " +
-              self.playerBoard[57] + " | " + self.playerBoard[58] + " | " + self.playerBoard[
-                  59] + "  " + Style.RESET_ALL)
+              self.playerBoard[57] + " | " + self.playerBoard[58] + " | " + self.playerBoard[59] + "  " + Style.RESET_ALL)
         print(" 60 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[60] + " | " +
               self.playerBoard[61] + " | " + self.playerBoard[62] + " | " + self.playerBoard[63] + " | " +
               self.playerBoard[64] + " | " + self.playerBoard[65] + " | " + self.playerBoard[66] + " | " +
-              self.playerBoard[67] + " | " + self.playerBoard[68] + " | " + self.playerBoard[
-                  69] + "  " + Style.RESET_ALL)
+              self.playerBoard[67] + " | " + self.playerBoard[68] + " | " + self.playerBoard[69] + "  " + Style.RESET_ALL)
         print(" 70 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[70] + " | " +
               self.playerBoard[71] + " | " + self.playerBoard[72] + " | " + self.playerBoard[73] + " | " +
               self.playerBoard[74] + " | " + self.playerBoard[75] + " | " + self.playerBoard[76] + " | " +
-              self.playerBoard[77] + " | " + self.playerBoard[78] + " | " + self.playerBoard[
-                  79] + "  " + Style.RESET_ALL)
+              self.playerBoard[77] + " | " + self.playerBoard[78] + " | " + self.playerBoard[79] + "  " + Style.RESET_ALL)
         print(" 80 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[80] + " | " +
               self.playerBoard[81] + " | " + self.playerBoard[82] + " | " + self.playerBoard[83] + " | " +
               self.playerBoard[84] + " | " + self.playerBoard[85] + " | " + self.playerBoard[86] + " | " +
-              self.playerBoard[87] + " | " + self.playerBoard[88] + " | " + self.playerBoard[
-                  89] + "  " + Style.RESET_ALL)
+              self.playerBoard[87] + " | " + self.playerBoard[88] + " | " + self.playerBoard[89] + "  " + Style.RESET_ALL)
         print(" 90 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[90] + " | " +
               self.playerBoard[91] + " | " + self.playerBoard[92] + " | " + self.playerBoard[93] + " | " +
               self.playerBoard[94] + " | " + self.playerBoard[95] + " | " + self.playerBoard[96] + " | " +
-              self.playerBoard[97] + " | " + self.playerBoard[98] + " | " + self.playerBoard[
-                  99] + "  " + Style.RESET_ALL)
+              self.playerBoard[97] + " | " + self.playerBoard[98] + " | " + self.playerBoard[99] + "  " + Style.RESET_ALL)
+
+    # method that draws the board that records hit record
+    # method that takes index of hits as input and displays it in a board
+    def draw_hit_board(self):
+        print("      00 |01 |02 |03 |04 |05 |06 |07 |08 |09  ")
+        print("----------------------------------------------")
+        print(" 00 ||" + Fore.RED + Back.BLUE + " " + self.hitBoard[0] + " | " +
+              self.hitBoard[1] + " | " + self.hitBoard[2] + " | " + self.hitBoard[3] + " | " +
+              self.hitBoard[4] + " | " + self.hitBoard[5] + " | " + self.hitBoard[6] + " | " +
+              self.hitBoard[7] + " | " + self.hitBoard[8] + " | " + self.hitBoard[9] + "  " + Style.RESET_ALL)
+        print(" 10 ||" + Fore.RED + Back.BLUE + " " + self.hitBoard[10] + " | " +
+              self.hitBoard[11] + " | " + self.hitBoard[12] + " | " + self.hitBoard[13] + " | " +
+              self.hitBoard[14] + " | " + self.hitBoard[15] + " | " + self.hitBoard[16] + " | " +
+              self.hitBoard[17] + " | " + self.hitBoard[18] + " | " + self.hitBoard[19] + "  " + Style.RESET_ALL)
+        print(" 02 ||" + Fore.RED + Back.BLUE + " " + self.hitBoard[20] + " | " +
+              self.hitBoard[21] + " | " + self.hitBoard[22] + " | " + self.hitBoard[23] + " | " +
+              self.hitBoard[24] + " | " + self.hitBoard[25] + " | " + self.hitBoard[26] + " | " +
+              self.hitBoard[27] + " | " + self.hitBoard[28] + " | " + self.hitBoard[29] + "  " + Style.RESET_ALL)
+        print(" 30 ||" + Fore.RED + Back.BLUE + " " + self.hitBoard[30] + " | " +
+              self.hitBoard[31] + " | " + self.hitBoard[32] + " | " + self.hitBoard[33] + " | " +
+              self.hitBoard[34] + " | " + self.hitBoard[35] + " | " + self.hitBoard[36] + " | " +
+              self.hitBoard[37] + " | " + self.hitBoard[38] + " | " + self.hitBoard[39] + "  " + Style.RESET_ALL)
+        print(" 40 ||" + Fore.RED + Back.BLUE + " " + self.hitBoard[40] + " | " +
+              self.hitBoard[41] + " | " + self.hitBoard[42] + " | " + self.hitBoard[43] + " | " +
+              self.hitBoard[44] + " | " + self.hitBoard[45] + " | " + self.hitBoard[46] + " | " +
+              self.hitBoard[47] + " | " + self.hitBoard[48] + " | " + self.hitBoard[49] + "  " + Style.RESET_ALL)
+        print(" 50 ||" + Fore.RED + Back.BLUE + " " + self.hitBoard[50] + " | " +
+              self.hitBoard[51] + " | " + self.hitBoard[52] + " | " + self.hitBoard[53] + " | " +
+              self.hitBoard[54] + " | " + self.hitBoard[55] + " | " + self.hitBoard[56] + " | " +
+              self.hitBoard[57] + " | " + self.hitBoard[58] + " | " + self.hitBoard[59] + "  " + Style.RESET_ALL)
+        print(" 60 ||" + Fore.RED + Back.BLUE + " " + self.hitBoard[60] + " | " +
+              self.hitBoard[61] + " | " + self.hitBoard[62] + " | " + self.hitBoard[63] + " | " +
+              self.hitBoard[64] + " | " + self.hitBoard[65] + " | " + self.hitBoard[66] + " | " +
+              self.hitBoard[67] + " | " + self.hitBoard[68] + " | " + self.hitBoard[69] + "  " + Style.RESET_ALL)
+        print(" 70 ||" + Fore.RED + Back.BLUE + " " + self.hitBoard[70] + " | " +
+              self.hitBoard[71] + " | " + self.hitBoard[72] + " | " + self.hitBoard[73] + " | " +
+              self.hitBoard[74] + " | " + self.hitBoard[75] + " | " + self.hitBoard[76] + " | " +
+              self.hitBoard[77] + " | " + self.hitBoard[78] + " | " + self.hitBoard[79] + "  " + Style.RESET_ALL)
+        print(" 80 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[80] + " | " +
+              self.hitBoard[81] + " | " + self.hitBoard[82] + " | " + self.hitBoard[83] + " | " +
+              self.hitBoard[84] + " | " + self.hitBoard[85] + " | " + self.hitBoard[86] + " | " +
+              self.hitBoard[87] + " | " + self.hitBoard[88] + " | " + self.hitBoard[89] + "  " + Style.RESET_ALL)
+        print(" 90 ||" + Fore.RED + Back.BLUE + " " + self.playerBoard[90] + " | " +
+              self.hitBoard[91] + " | " + self.hitBoard[92] + " | " + self.hitBoard[93] + " | " +
+              self.hitBoard[94] + " | " + self.hitBoard[95] + " | " + self.hitBoard[96] + " | " +
+              self.hitBoard[97] + " | " + self.hitBoard[98] + " | " + self.hitBoard[99] + "  " + Style.RESET_ALL)
 
     def check_strike(self, attack):
         if (99 < attack >= 0) or (self.playerBoard[attack] == "X"):
@@ -90,6 +127,15 @@ class Board:
         if self.playerBoard[attack] == "S":
             self.playerBoard[attack] = "X"
             return "hit"
+
+    def update_hit_board(self, feedback, coord):
+        if feedback == 'hit':
+            self.hitBoard[coord] = 'H'
+            self.draw_hit_board()
+        if feedback == 'miss':
+            self.hitBoard[coord] = 'M'
+            self.draw_hit_board()
+
 
     # method used to populate board with ships
     # prompts user to input number indicating where ship should go and then places ship accordingly using place_piece method
@@ -133,56 +179,27 @@ class Board:
         self.place_piece(ptboat2_coord, ptboat2_orient, 1)
         return self.playerBoard
 
-    def check_coord(self, coordinate):
-        while coordinate < 0 or coordinate > 99 or self.playerBoard[coordinate] == "■":
-            coordinate = int(input("Please enter a coordinate that is in range: "))
-            coordinate = self.check_coord(coordinate)
-            return coordinate
-        else:
-            return coordinate
-
-    def check_orient(self, orient):
-        while orient not in {'H', 'V'}:
-            orient = str(input("Please enter an orientation that is H)orizontal or V)ertical: "))
-            orient = self.check_orient(orient)
-            return orient
-        else:
-            return orient
-
-    def check_surrounding(self, coord, orient, spaces):
-        coord = self.check_coord(coord)
-        orient = self.check_orient(orient)
-        if orient == "V":
-            for i in range(1, spaces):
-                if self.playerBoard[coord + 10 * i] == "■":
-                    coord = int(input("That overlaps with an existing piece, please select another coordinate: "))
-                    coord, orient = self.check_surrounding(coord, orient, spaces)
-                else:
-                    return coord, orient
-        else:
-            for i in range(1, spaces):
-                if self.playerBoard[coord + i] == "■":
-                    coord = int(input("That overlaps with an existing piece, please select another coordinate: "))
-                    coord, orient = self.check_surrounding(coord, orient, spaces)
-                    return coord, orient
-
     # method that places a piece on the board
     def place_piece(self, coord, orientation, spaces):
         # create MoveValidator class and pass information to check the moves are okay
         valid = MoveValidator(coord, orientation, spaces, self.playerBoard)
         # check the moves
-        valid.check_surrounding()
+        valid.check()
         # save the valid moves once they've been checked
         valid_coord = valid.coordinate
         valid_orient = valid.orientation
         self.playerBoard[valid_coord] = "■"
-        if valid_orient == "H":
-            for i in range(1, spaces):
-                self.playerBoard[coord + i] = "■"
-        elif valid_orient == "V":
-            for i in range(1, spaces):
-                self.playerBoard[coord + 10 * i] = "■"
-        self.draw_board(self.playerBoard)
+        try:
+            if valid_orient == "H":
+                for i in range(1, spaces):
+                    self.playerBoard[coord + i] = "■"
+            elif valid_orient == "V":
+                for i in range(1, spaces):
+                    self.playerBoard[coord + 10 * i] = "■"
+        except:
+            coord = int(input('The piece you entered fell off the edge. Pick another coordinate: '))
+            self.place_piece(coord, valid_orient, spaces)
+        self.draw_player_board(self.playerBoard)
 
     # method that checks for a win and takes the board as an input
     # returns false if a win does not occur and true if one does

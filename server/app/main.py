@@ -1,9 +1,9 @@
 import grpc
 import logging
 import os
-from battleships_pb2_grpc import add_BattleshipsServicer_to_server
+from server.app.battleships_pb2_grpc import add_BattleshipsServicer_to_server
 from concurrent.futures import ThreadPoolExecutor
-from server import Battleship
+from server.app.server import Battleship
 import log
 
 logger = log.get_logger(__name__)

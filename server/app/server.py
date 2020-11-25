@@ -7,10 +7,10 @@ import threading
 import time
 import uuid
 import log
-from battleships_pb2 import Attack, Response, Status
-from battleships_pb2_grpc import BattleshipsServicer
-from game import Game
-from message import Message
+from server.app.battleships_pb2 import Attack, Response, Status
+from server.app.battleships_pb2_grpc import BattleshipsServicer
+from server.app.game import Game
+from server.app.message import Message
 
 logger = log.get_logger(__name__)
 logger.setLevel(logging.DEBUG)

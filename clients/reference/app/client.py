@@ -3,8 +3,8 @@ import logging
 import queue
 import threading
 import uuid
-from battleships_pb2 import Attack, Request, Response, Status
-from battleships_pb2_grpc import BattleshipsStub
+from clients.reference.app.battleships_pb2 import Attack, Request, Response, Status
+from clients.reference.app.battleships_pb2_grpc import BattleshipsStub
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -128,8 +128,8 @@ class Battleship:
         :param vector: Vector to send to game server, e.g., "G4"
         :raise ValueError: if vector is None or not a string
         """
-        if vector is None or type(vector) is not str:
-            raise ValueError('Parameter vector must be a string!')
+        if vector is None or type(vector) is not int:
+            raise ValueError('Parameter vector must be a integer!')
 
         self.__send(Request(move=Attack(vector=vector)))
 

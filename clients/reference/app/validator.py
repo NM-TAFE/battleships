@@ -24,25 +24,29 @@ class MoveValidator:
         else:
             return self.orientation
 
-    #
+    # method that checks ensuing places ship is placed are all free
     def check_spaces(self):
-        if self.orientation == 'V':
-            for i in range(1, self.space):
-                if self.playerBoard[self.coordinate + 10*i] == "■":
-                    return False
-            else:
-                return True
-        elif self.orientation == 'H':
-            for i in range(1, self.space):
-                if self.playerBoard[self.coordinate + i] == "■":
-                    return False
-            else:
-                return True
+        try:
+            all_clear = True
+            if self.orientation == 'V':
+                for i in range(1, self.space):
+                    if self.playerBoard[self.coordinate + 10 * i] != "0":
+                        all_clear = False
+            elif self.orientation == 'H':
+                for i in range(1, self.space):
+                    if self.playerBoard[self.coordinate + i] != "0":
+                        all_clear = False
+            while not all_clear:
+                self.coordinate = int(input('That piece falls on top of another. Pick another coordinate: '))
+                all_clear = True
+                self.check_spaces()
+        except:
+            self.coordinate = int(input('The piece you entered fell off the edge. Pick another coordinate: '))
+            self.check()
+            return
 
-    # method that checks all following places piece is put are valid
-    def check_surrounding(self):
+    # method that puts together all other methods
+    def check(self):
         self.coordinate = self.check_coord()
         self.orientation = self.check_orient()
-        while not self.check_spaces():
-            self.coordinate = int(input('Location overlaps with piece, select another coordinate: '))
-            self.check_spaces()
+        self.check_spaces()

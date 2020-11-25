@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import battleships_pb2 as battleships__pb2
+import clients.reference.app.battleships_pb2 as battleships__pb2
 
 
 class BattleshipsStub(object):
