@@ -24,6 +24,11 @@ def start_turn():
 
 
 @battleship.on()
+def sunk():
+    print('Ship sunk!')
+
+
+@battleship.on()
 def hit():
     print('You hit the target!')
 
@@ -50,7 +55,7 @@ def attack(vector):
     vector = vector[0]
     print(f'Shot received at {vector}')
     while True:
-        print("""H)it, m)iss, or d)efeat?""")
+        print("""H)it, m)iss, s(unk, or d)efeat?""")
         s = input('Enter status> ')
         _s = s[0].upper()
         if _s == 'H':
@@ -62,6 +67,10 @@ def attack(vector):
         elif _s == 'D':
             battleship.defeat()
             break
+        elif _s == "S":
+            battleship.sunk()
+            break
+
         else:
             continue
 

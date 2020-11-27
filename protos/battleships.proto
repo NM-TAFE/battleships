@@ -43,6 +43,7 @@ message Status {
         MISS = 0;
         HIT = 1;
         DEFEAT = 2;
+        SUNK = 3;
     }
 
     State state = 1;

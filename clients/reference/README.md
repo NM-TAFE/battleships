@@ -83,6 +83,13 @@ def miss():
     """
     print('Aww.. You missed!')
 
+@battleship.on()
+def sunk():
+    """This callback indicates that the other player has marked your
+    attack has sunk a ship.
+    """
+    print('Ship Sunk!')
+
 
 @battleship.on()
 def win():

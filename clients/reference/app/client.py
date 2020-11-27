@@ -24,11 +24,12 @@ class Battleship:
     STATES = {
         Status.State.MISS: 'miss',
         Status.State.HIT: 'hit',
+        Status.State.SUNK: 'sunk',
     }
 
     __supported_events = [
         'begin', 'start_turn', 'end_turn', 'attack',
-        'hit', 'miss', 'win', 'lose'
+        'hit', 'miss', 'win', 'lose', 'sunk'
     ]
 
     def __init__(self, grpc_host='localhost', grpc_port='50051'):
@@ -144,6 +145,12 @@ class Battleship:
         attack was a MISS. Phew!
         """
         self.__send(Request(report=Status(state=Status.State.MISS)))
+
+    def sunk(self):
+        """This method indicates to the game server that the received
+        attack has SUNK a ship. Phew!
+        """
+        self.__send(Request(report=Status(state=Status.State.SUNK)))
 
     def defeat(self):
         """This method indicates to the game serve that the received

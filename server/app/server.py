@@ -347,6 +347,7 @@ class _Server:
                 '0': ('MISS', Status.State.MISS),
                 '1': ('HIT', Status.State.HIT),
                 '2': ('DEFEAT', Status.State.DEFEAT),
+                '3': ('SUNK', Status.State.SUNK),
             }
             state = states[message.data][0]
 
