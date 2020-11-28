@@ -12,6 +12,14 @@ from battleships_pb2_grpc import BattleshipsServicer
 from game import Game
 from message import Message
 
+from ships import Ships
+
+# William
+# Added my own class to hold ships from all server players
+ServerShips = Ships()
+# William
+# Named ships as ServerShips
+
 logger = log.get_logger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -106,6 +114,7 @@ class _Server:
             return
 
         player_id = request.join.id
+        ServerShips.prepareShips(player_id)
         if player_id == '':
             logger.error('Player message ID is empty')
             return
@@ -223,6 +232,9 @@ class _Server:
         """
         while True:
             request = self.recv()
+            ServerShips.prepareShips(player_id)
+            # William
+            # Inserted method here to instantiate ships for player
             if request is None:
                 return
 
@@ -349,10 +361,16 @@ class _Server:
                 '2': ('DEFEAT', Status.State.DEFEAT),
             }
             state = states[message.data][0]
+            # William
+            # added code to determine if ship is sunken and added to logger.info msg
+            # placerholder needs to be changed to match new recieving data
+            # #
 
+            shipcode = placeholder
+            shipsunken = ServerShips.checkSunk(player_id, shipcode)
             logger.info(f'({player_id}) - pubsub - '
                         f'Received STATUS from player {message.player} with '
-                        f'state {state}.')
+                        f'state {state}. {shipsunken}')
 
             if message.player != player_id:
                 state = states[message.data][1]
