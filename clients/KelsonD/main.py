@@ -1,7 +1,7 @@
 import os
 import threading
 import time
-from reference.app.client import Battleship
+from client import Battleship
 from clients.KelsonD.board import Board
 
 grpc_host = os.getenv('GRPC_HOST', 'localhost')
@@ -20,20 +20,22 @@ def begin():
 
 @battleship.on()
 def start_turn():
-    s = game.my_turn()
-    battleship.attack(s)
+    # create global variable so it can be accessed by other methods
+    global shot
+    shot = game.my_turn()
+    battleship.attack(shot)
 
 
 @battleship.on()
 def hit():
     print('You hit the target!')
-    game.update_hit_board('hit', coord)
+    game.update_hit_board('hit', shot)
 
 
 @battleship.on()
 def miss():
     print('Aww.. You missed!')
-    game.update_hit_board('miss', coord)
+    game.update_hit_board('miss', shot)
 
 
 @battleship.on()
@@ -53,8 +55,7 @@ def attack(vector):
     vector = vector[0]
     print(f'Shot received at {vector}')
     while True:
-        print("""H)it, m)iss, or d)efeat?""")
-        s = game.check_strike()
+        s = game.check_strike(vector)
         if len(s):
             if s == 'hit':
                 battleship.hit()
@@ -62,12 +63,14 @@ def attack(vector):
             elif s == 'miss':
                 battleship.miss()
                 break
-            elif game.check_defeat():
+            elif s == 'defeat':
                 battleship.defeat()
                 break
 
 
-print('Waiting for the game to start...')
-battleship.join()
-while playing.is_set():
-    time.sleep(1.0)
+if __name__ == '__main__':
+    print('Waiting for the game to start...')
+    game.place_ships()
+    battleship.join()
+    while playing.is_set():
+        time.sleep(1.0)

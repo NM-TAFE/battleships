@@ -136,14 +136,25 @@ class Board:
 
     # checks if opponents
     def check_strike(self, attack):
+        # checks if move was a valid move
         if (99 < attack >= 0) or (self.playerBoard[attack] == "■") or (self.playerBoard[attack == 'M']):
             return 'invalid'
+        # returns miss if no piece is there
         if self.playerBoard[attack] == "0":
             self.playerBoard[attack] = 'M'
+            print('Opponent missed target.')
+            self.draw_player_board()
             return 'miss'
+        # returns hit or defeat if move is a hit
         if self.playerBoard[attack] == "■":
+            print('Opponent hit target.')
             self.playerBoard[attack] = "X"
-            return 'hit'
+            self.draw_player_board()
+            # check to see if player has been defeated
+            if self.check_defeat():
+                return 'defeat'
+            else:
+                return 'hit'
 
     # method to update players hit board to log attacks
     def update_hit_board(self, feedback, coord):
@@ -221,10 +232,10 @@ class Board:
         try:
             if valid_orient == 'H':
                 for i in range(1, spaces):
-                    self.playerBoard[coord + i] = '■'
+                    self.playerBoard[valid_coord + i] = '■'
             elif valid_orient == 'V':
                 for i in range(1, spaces):
-                    self.playerBoard[coord + 10 * i] = '■'
+                    self.playerBoard[valid_coord + 10 * i] = '■'
         except:
             coord = int(input('The piece you entered fell off the edge. Pick another coordinate: '))
             self.place_piece(coord, valid_orient, spaces)

@@ -1,3 +1,6 @@
+import math
+
+
 class MoveValidator:
 
     # class takes coordinates, orient, spaces, and board as constructors
@@ -10,7 +13,7 @@ class MoveValidator:
     # method that checks the user enters a valid input for orientation
     def check_coord(self):
         while self.coordinate < 0 or self.coordinate > 99 or self.playerBoard[self.coordinate] == "■":
-            self.coordinate = int(input("Please enter a coordinate that is in range: "))
+            self.coordinate = int(input("Please enter a coordinate that is in range and free: "))
             self.coordinate = self.check_coord()
             return self.coordinate
         else:
@@ -25,34 +28,41 @@ class MoveValidator:
         else:
             return self.orientation
 
-    # blah blah blah
     # method that checks ensuing places ship is placed are all free
     def check_spaces(self):
         try:
-            all_clear = True
+            # checks if any following spots fall on existing piece in vertical
             if self.orientation == 'V':
                 for i in range(1, self.space):
                     if self.playerBoard[self.coordinate + 10 * i] != "0":
-                        all_clear = False
+                        self.coordinate = int(input("Piece falls on another. Please pick another coordinate: "))
+                        self.check_spaces()
+            # checks if any following spots fall on existing piece in horizontal
             elif self.orientation == 'H':
                 for i in range(1, self.space):
                     if self.playerBoard[self.coordinate + i] != "0":
-                        all_clear = False
-            while not all_clear:
-                self.coordinate = int(input('That piece falls on top of another. Pick another coordinate: '))
-                all_clear = True
-                self.check_spaces()
+                        self.coordinate = int(input("Piece falls on another. Please pick another coordinate: "))
+                        self.check_spaces()
+        # catch when user enters coordinate out of range
         except:
             self.coordinate = int(input('The piece you entered fell off the edge. Pick another coordinate: '))
-            self.check()
+            self.check_spaces()
             return
 
     # method to check if piece attempts to wrap around board
     def wrap_around(self):
-        pass
+        if self.orientation == 'H':
+            start_coord = int(self.coordinate) + 1
+            end_coord = int(self.coordinate) + int(self.space)
+            for i in range(start_coord, end_coord):
+                # if first digit of coord does not match first digit of next placement makes user re enter
+                if math.floor(i/10) != math.floor((i - 1) / 10):
+                    self.coordinate = int(input("Piece falls off the edge. Pick another coordinate: "))
+                    self.wrap_around()
 
     # method that puts together all other methods
     def check(self):
         self.coordinate = self.check_coord()
         self.orientation = self.check_orient()
         self.check_spaces()
+        self.wrap_around()
