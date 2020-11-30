@@ -1,4 +1,4 @@
-import log
+from server.app import log
 from threading import Lock
 
 logger = log.get_logger(__name__)
