@@ -106,10 +106,10 @@ if __name__ == "__main__":
     print("Prejoin phase has started")
     string_quickPlace = input(
         "Automatic ship placement? yes or no: ").upper()  # No fancy randomizer for ships, just a prefilled board
-    bool_qP = False
     if string_quickPlace == "YES":
-        bool_qp = True
-    player.placingShips(bool_qp)
+        player.placingShips(True)
+    else:
+        player.placingShips(False)
     print('Waiting for the game to start...')
     battleship.join()
     while playing.is_set():
