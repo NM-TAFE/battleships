@@ -1,15 +1,16 @@
 import os
 import threading
 import time
-from client import Battleship
+from reference.app.client import Battleship
+from clients.KelsonD.board import Board
 
-grpc_host = os.getenv('GRPC_HOST', 'b.sndm.me')
+grpc_host = os.getenv('GRPC_HOST', 'localhost')
 grpc_port = os.getenv('GRPC_PORT', '50051')
 
 playing = threading.Event()
 playing.set()
-
 battleship = Battleship(grpc_host=grpc_host, grpc_port=grpc_port)
+game = Board()
 
 
 @battleship.on()
@@ -19,18 +20,20 @@ def begin():
 
 @battleship.on()
 def start_turn():
-    s = input('Your move> ')
+    s = game.my_turn()
     battleship.attack(s)
 
 
 @battleship.on()
 def hit():
     print('You hit the target!')
+    game.update_hit_board('hit', coord)
 
 
 @battleship.on()
 def miss():
     print('Aww.. You missed!')
+    game.update_hit_board('miss', coord)
 
 
 @battleship.on()
@@ -51,16 +54,15 @@ def attack(vector):
     print(f'Shot received at {vector}')
     while True:
         print("""H)it, m)iss, or d)efeat?""")
-        s = input('Enter status> ')
+        s = game.check_strike()
         if len(s):
-            _s = s[0].upper()
-            if _s == 'H':
+            if s == 'hit':
                 battleship.hit()
                 break
-            elif _s == 'M':
+            elif s == 'miss':
                 battleship.miss()
                 break
-            elif _s == 'D':
+            elif game.check_defeat():
                 battleship.defeat()
                 break
 

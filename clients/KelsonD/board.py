@@ -1,6 +1,6 @@
 from colorama import Fore, Back, Style
 
-from clients.reference.app.validator import MoveValidator
+from clients.KelsonD.validator import MoveValidator
 
 
 class Board:

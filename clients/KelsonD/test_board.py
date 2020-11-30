@@ -1,4 +1,4 @@
-from clients.reference.app.board import Board
+from clients.KelsonD.board import Board
 
 test_game = Board()
 
