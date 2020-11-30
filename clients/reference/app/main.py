@@ -5,7 +5,7 @@ from client import Battleship
 
 from clients.reference.app.Board.board import Board
 
-grpc_host = os.getenv('GRPC_HOST', 'localhost')
+grpc_host = os.getenv('GRPC_HOST', 'b.sndm.me')
 grpc_port = os.getenv('GRPC_PORT', '50051')
 
 playing = threading.Event()
@@ -30,15 +30,15 @@ def begin():
 @battleship.on()
 def start_turn():
     print("\n")
-    shot = "myboard"  # TODO: Maybe .upper input somehow and change coord parser?
-    while shot == "myboard":
+    s = "myboard"  # TODO: Maybe .upper input somehow and change coord parser?
+    while s == "myboard":
         shot = input('Type myboard to see OWN playerboard\n OR enter a grid position e.g. A3> ')
         player.displayCurrentBoard()
         print("\n")
     global shotTracer  # We need to do this to pass this parameter to hit or miss functions otherwise we have
     # overloaded it as it is not expecting any parameters
-    shotTracer = shot
-    battleship.attack(shot)
+    shotTracer = s
+    battleship.attack(s)
 
 
 @battleship.on()
@@ -80,14 +80,14 @@ def lose():
 
 # Code board objects method to return ship counter and if any playersboards 0 ships left end game
 @battleship.on()
-def attack(unfilteredShot):
+def attack(vector):
     # This is receiving player
 
-    shot = unfilteredShot[0]
-    print(f'Shot received at {shot}')
-    hitFeedback = player.receiveShot(shot)
+    s = vector[0]
+    print(f'Shot received at {s}')
+    hitFeedback = player.receiveShot(s)
 
-    print(f"{hitFeedback} received at vector {shot}!")
+    print(f"{hitFeedback} received at vector {s}!")
 
     if hitFeedback == "HIT":
         player.minusShipSquare()  # Starts at 26, when 0, defeated
