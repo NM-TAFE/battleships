@@ -3,8 +3,9 @@ import logging
 import queue
 import threading
 import uuid
-from battleships_pb2 import Attack, Request, Response, Status
-from battleships_pb2_grpc import BattleshipsStub
+from clients.reference.app.battleships_pb2 import Attack, Request, Response, Status
+from clients.reference.app.battleships_pb2_grpc import BattleshipsStub
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
