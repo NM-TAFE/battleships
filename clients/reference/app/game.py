@@ -1,7 +1,7 @@
-import log
+from clients.reference.app.log import get_logger
 from threading import Lock
 
-logger = log.get_logger(__name__)
+logger = get_logger(__name__)
 
 
 class Game:
